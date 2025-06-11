@@ -1,7 +1,5 @@
 <?php
 
-// app/Models/Product.php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,6 +10,9 @@ class Produto extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'description', 'price', 'image_url',
+        'name',
+        'description',
+        'price',
+        'image_url',
     ];
 }

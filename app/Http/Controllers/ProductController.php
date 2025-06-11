@@ -1,18 +1,29 @@
 <?php
-// app/Http/Controllers/ProductController.php
 
 namespace App\Http\Controllers;
 
 use App\Models\Produto;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
-class ProductController extends \Illuminate\Routing\Controller
+class ProductController extends Controller
 {
     // Listar todos os produtos
     public function index()
     {
-        $products = Produto::all();
-        return response()->json($products);
+        return response()->json(Produto::all());
+    }
+
+    // Exibir detalhes de um produto
+    public function show($id)
+    {
+        $product = Produto::find($id);
+
+        if (!$product) {
+            return response()->json(['error' => 'Produto não encontrado'], 404);
+        }
+
+        return response()->json($product);
     }
 
     // Criar um novo produto
@@ -30,17 +41,14 @@ class ProductController extends \Illuminate\Routing\Controller
         return response()->json($product, 201);
     }
 
-    // Detalhes de um produto
-    public function show($id)
-    {
-        $product = Produto::findOrFail($id);
-        return response()->json($product);
-    }
-
-    // Atualizar um produto
+    // Atualizar um produto existente
     public function update(Request $request, $id)
     {
-        $product = Produto::findOrFail($id);
+        $product = Produto::find($id);
+
+        if (!$product) {
+            return response()->json(['error' => 'Produto não encontrado'], 404);
+        }
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -54,10 +62,15 @@ class ProductController extends \Illuminate\Routing\Controller
         return response()->json($product);
     }
 
-    // Deletar um produto
+    // Excluir um produto
     public function destroy($id)
     {
-        $product = Produto::findOrFail($id);
+        $product = Produto::find($id);
+
+        if (!$product) {
+            return response()->json(['error' => 'Produto não encontrado'], 404);
+        }
+
         $product->delete();
 
         return response()->json(null, 204);
