@@ -2,19 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Routing\Controller;
 use App\Models\Produto;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 
 class ProductController extends Controller
 {
-    // Listar todos os produtos
     public function index()
     {
         return response()->json(Produto::all());
     }
 
-    // Exibir detalhes de um produto
     public function show($id)
     {
         $product = Produto::find($id);
@@ -26,7 +24,6 @@ class ProductController extends Controller
         return response()->json($product);
     }
 
-    // Criar um novo produto
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -41,7 +38,6 @@ class ProductController extends Controller
         return response()->json($product, 201);
     }
 
-    // Atualizar um produto existente
     public function update(Request $request, $id)
     {
         $product = Produto::find($id);
@@ -62,7 +58,6 @@ class ProductController extends Controller
         return response()->json($product);
     }
 
-    // Excluir um produto
     public function destroy($id)
     {
         $product = Produto::find($id);
